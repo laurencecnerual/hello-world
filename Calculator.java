@@ -1,39 +1,60 @@
-//This class serves as a calculator to make computations between two numbers and return said result.
-//To do so, it requires the two numbers to be used and the mathematical operation to be performed as input.
+//This class serves as a calculator to make computations across an array of numbers and return its result
+//To do so, as input, it requires both an array of numbers to be used and the mathematical operation to be performed.
 
 package com.company;
 
 public class Calculator {
-    private double input1;
-    private double input2;
-    private char operation;
-    private double output;
+    private double[] input; // numbers to be operated on
+    private int maxIn; // the in-house max array size
+    private int numOfIn; // the actual number of elements, capped by maxIn
+    private char operation; // the math operation to be performed
+    private double output; // the result of the operation
 
-    public Calculator(){
-        input1 = 1;
-        input2 = 1;
+    public Calculator() {
+        maxIn = 100;
+        numOfIn = maxIn;
+        input = new double[numOfIn];
+
+        for (int i = 0; i < numOfIn; i++) {
+            input[i] = 1;
+        }
+
         operation = '+';
     }
 
-    public void setArgs(double userIn1, double userIn2, char userOp){
-        input1 = userIn1;
-        input2 = userIn2;
+    public void setArgs(double[] userIn, char userOp){
+
+        if (userIn.length < maxIn) {
+            numOfIn = userIn.length;
+        }
+
+        System.arraycopy(userIn, 0, input, 0, numOfIn);
         operation = userOp;
     }
 
     private void doMath() {
+        output = input[0];
+
         switch (operation) {
             case '+':
-                output = input1 + input2;
+                for (int i = 1; i < numOfIn; i++) {
+                    output += input[i];
+                }
                 break;
             case '-':
-                output = input1 - input2;
+                for (int i = 1; i < numOfIn; i++) {
+                    output -= input[i];
+                }
                 break;
             case '*':
-                output = input1 * input2;
+                for (int i = 1; i < numOfIn; i++) {
+                    output *= input[i];
+                }
                 break;
             case '/':
-                output = input1 / input2;
+                for (int i = 1; i < numOfIn; i++) {
+                    output /= input[i];
+                }
                 break;
             default:
                 output = 0;
