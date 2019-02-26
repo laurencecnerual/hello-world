@@ -9,8 +9,9 @@ public class Calculator {
     private int numOfIn; // the actual number of elements, capped by maxIn
     private char operation; // the math operation to be performed
     private double output; // the result of the operation
+    private String equation; //the full equation depicting the input values, operation, and their result
 
-    public Calculator() {
+    public Calculator() { // constructor for making a new Calculator
         maxIn = 100;
         numOfIn = maxIn;
         input = new double[numOfIn];
@@ -20,9 +21,10 @@ public class Calculator {
         }
 
         operation = '+';
+        equation = "";
     }
 
-    public void setArgs(double[] userIn, char userOp){
+    public void setArgs(double[] userIn, char userOp) { // used to input the user's entries and desired operation type, and then actually compute the answer and prepare a String representing what was done.
 
         if (userIn.length < maxIn) {
             numOfIn = userIn.length;
@@ -30,9 +32,11 @@ public class Calculator {
 
         System.arraycopy(userIn, 0, input, 0, numOfIn);
         operation = userOp;
+        doMath();
+        makeEquation();
     }
 
-    private void doMath() {
+    private void doMath() { // used to calculate the result of the selected math operation based on the user's input
         output = input[0];
 
         switch (operation) {
@@ -62,8 +66,19 @@ public class Calculator {
 
     }
 
-    public double getResult(){
-        doMath();
+    public double getResult() { // returns the result of the selected math operation and input values
         return output;
+    }
+
+    private void makeEquation() { // prepares a String representation of the full equation computed (featuring input values, the operation performed, and their result)
+        for (int i = 0; i < numOfIn - 1; i++) {
+            equation += input[i] + " " + operation + " ";
+        }
+
+        equation += input[numOfIn - 1] + " = " + output + ".";
+    }
+
+    public String getEquation() { // returns the full calculation performed (in equation form)
+        return equation;
     }
 }
