@@ -3,6 +3,8 @@
 
 package com.company;
 
+import java.util.Arrays;
+
 public class Calculator {
     private double[] input; // numbers to be operated on
     private int maxIn; // the in-house max array size
@@ -24,6 +26,11 @@ public class Calculator {
         equation = "";
     }
 
+    public void setArgs(int[] userIn, char userOp) {
+        double[] intToDouble = Arrays.stream(userIn).asDoubleStream().toArray();
+        setArgs(intToDouble, userOp);
+    }
+
     public void setArgs(double[] userIn, char userOp) { // used to input the user's entries and desired operation type, and then actually compute the answer and prepare a String representing what was done.
 
         if (userIn.length < maxIn) {
@@ -31,6 +38,10 @@ public class Calculator {
         }
 
         System.arraycopy(userIn, 0, input, 0, numOfIn);
+        setArgs(userOp);
+    }
+
+    public void setArgs(char userOp) {
         operation = userOp;
         doMath();
         makeEquation();
@@ -60,10 +71,14 @@ public class Calculator {
                     output /= input[i];
                 }
                 break;
+            case '%':
+                for (int i = 1; i < numOfIn; i++) {
+                    output %= input[i];
+                }
+                break;
             default:
-                output = 0;
+                output = -666;
         }
-
     }
 
     public double getResult() { // returns the result of the selected math operation and input values
